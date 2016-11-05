@@ -2,15 +2,17 @@
 using System.Collections;
 
 public class SpriteAnimator : MonoBehaviour {
-	public GameObject target;
 	private Transform parent;
-	private string currentAnimation;
 	private Animator animation;
+	private GameObject camera;
+	private string currentAnimation;
+	private float rotation;
 
 	// Use this for initialization
 	void Start () {
-		parent = target.transform;
+		parent = transform.parent.FindChild("View").transform;
 		animation = gameObject.GetComponent<Animator>();
+		camera = GameObject.Find("Main Camera");
 		currentAnimation = "WalkD";
 		animation.Play(currentAnimation);
 	}
@@ -18,25 +20,31 @@ public class SpriteAnimator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		SwitchDirection();
+		LookCamera();
 	}
 
 	private void SwitchDirection(){
-		float degree = parent.localRotation.eulerAngles.y;
-		string nextAnimation;
-		if (degree < 45f){
-			nextAnimation = "WalkR";
-		} else if (degree < 135f){
-			nextAnimation = "WalkD";
-		} else if (degree < 225f){
-			nextAnimation = "WalkL";
-		} else if (degree < 315f){
-			nextAnimation = "WalkU";
+		float tDegree = parent.localRotation.eulerAngles.y;
+		string tNextAnimation;
+		if (tDegree < 45f){
+			tNextAnimation = "WalkR";
+		} else if (tDegree < 135f){
+			tNextAnimation = "WalkD";
+		} else if (tDegree < 225f){
+			tNextAnimation = "WalkL";
+		} else if (tDegree < 315f){
+			tNextAnimation = "WalkU";
 		} else {
-			nextAnimation = "WalkR";
+			tNextAnimation = "WalkR";
 		}
-		if (currentAnimation != nextAnimation){
-			currentAnimation = nextAnimation;
+		if (currentAnimation != tNextAnimation){
+			currentAnimation = tNextAnimation;
 			animation.Play(currentAnimation);
 		}
+	}
+
+	private void LookCamera(){
+		rotation = camera.transform.localRotation.eulerAngles.x;
+		transform.localRotation = Quaternion.Euler(rotation, 0f, 0f);
 	}
 }
