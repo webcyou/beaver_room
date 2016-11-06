@@ -13,8 +13,8 @@ public class GameEvent : MonoBehaviour {
 
 	void Start(){
 		main = GameObject.Find("Main").GetComponent<Main>();
-		id = main.eventManager.gameEventQyt;
-		main.eventManager.gameEventQyt += 1;
+		id = main.eventManager.gameEventQty;
+		main.eventManager.gameEventQty += 1;
 
 		nodesIndex = 0;
 		LoadJSON();
