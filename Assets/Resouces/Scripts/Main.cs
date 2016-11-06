@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using MiniJSON;
 
 public class Main : MonoBehaviour {
 	[System.NonSerialized]public bool isGameOver;
@@ -9,6 +10,10 @@ public class Main : MonoBehaviour {
 	[System.NonSerialized]public EventManager eventManager;
 
 	[System.NonSerialized]public CameraController camera;
+	[System.NonSerialized]public GroundGenerator ground;
+
+	private string filePathJSON = "Data/level_Village";
+
 //	public UI ui;
 	public MessageWindow messageWindow;
 
@@ -27,6 +32,7 @@ public class Main : MonoBehaviour {
 		};
 		eventManager = new EventManager(GameObject.Find("EventChecker"));
 
+
 		BuildScene();
 
 		SwitchMode("Search");
@@ -38,7 +44,7 @@ public class Main : MonoBehaviour {
 	private void BuildScene(){
 		player = BuildPlayer();
 
-
+		ground = BuildGround();
 //		ui = new UI(GameObject.Find ("UI"));
 //		messageWindow = new MessageWindow(GameObject.Find("MessageWindow"));
 
@@ -53,20 +59,17 @@ public class Main : MonoBehaviour {
 
 		return tPlayer;
 	}
-//	private Character BuildPlayer(){
-//		GameObject tPrefab = (GameObject)Resources.Load ("Prefabs/Player");
-//		GameObject tGameObjet = (GameObject)GameObject.Instantiate(tPrefab, new Vector3(), new Quaternion());
-//		tGameObjet.transform.parent = level.gameObject.transform;
-//		Character tPlayer = new Character(tGameObjet);
-//		return tPlayer;
-//	}
 
-//	private BackGround BuildBackGround(){
-//		GameObject tPrefab = (GameObject)Resources.Load ("Prefabs/BackGround");
-//		BackGround tBackGround = new BackGround(tPrefab);
-//		return tBackGround;
-//	}
+	private GroundGenerator BuildGround(){
+		GameObject tGameObjet = GameObject.Find("Ground");
 
+		//Dictionary<string, object> tNode = LoadJSON(filePathJSON);
+
+		GroundGenerator tGround = new GroundGenerator(tGameObjet, ParseGroundData());
+		return tGround;
+	}
+
+	//
 	private void GameStart(){
 		isGameOver = false;
 		player.Init(player.gameObject.transform.localPosition);
@@ -150,6 +153,34 @@ public class Main : MonoBehaviour {
 			break;
 		}
 	}
+
+	private List<int[]> ParseGroundData(){
+		List<int[]> tList = new List<int[]>{
+			//          0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+			new int[32]{ 0, 0, 1, 4, 3, 5, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 2, 1, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 0, 1, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 0, 0,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 0, 0,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 0,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 1, 0,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 1, 0,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 0,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 0, 0,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 1, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 1, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 1, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			new int[32]{ 0, 0, 0, 2, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+		};
+		return tList;
+	}
+//	private Dictionary<string, object> LoadJSON(string pFilePath){
+//		TextAsset tText = (TextAsset)Resources.Load(pFilePath);
+//		return (Dictionary<string, object>)Json.Deserialize(tText.text);
+//	}
 }
 
 

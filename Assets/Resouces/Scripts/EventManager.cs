@@ -7,7 +7,7 @@ public class EventManager {
 	public TriggerEventDispatcher dispatcher;
 	public string textMessage;
 	public List<GameEvent> gameEvents = new List<GameEvent>();
-	public int gameEventQyt = 0;
+	public int gameEventQty = 0;
 
 
 	public EventManager(GameObject pGameObject){

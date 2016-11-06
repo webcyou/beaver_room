@@ -51,6 +51,7 @@
      <Compile Include="Assets\Resouces\Scripts\DelayFunc.cs" />
      <Compile Include="Assets\Resouces\Scripts\EventManager.cs" />
      <Compile Include="Assets\Resouces\Scripts\GameEvent.cs" />
+     <Compile Include="Assets\Resouces\Scripts\GroundGenerator.cs" />
      <Compile Include="Assets\Resouces\Scripts\InputManager.cs" />
      <Compile Include="Assets\Resouces\Scripts\Main.cs" />
      <Compile Include="Assets\Resouces\Scripts\MessageWindow.cs" />
